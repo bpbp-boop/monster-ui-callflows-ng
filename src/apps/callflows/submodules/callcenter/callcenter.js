@@ -845,21 +845,15 @@ define(function(require) {
 				}
 			});
 
-			console.log(form_data)
-
 			return form_data;
 		},
 
 		queueBindEvents: function (args) {
-			var self = this,
-				data = args.data,
-				callbacks = args.callbacks,
-				queue_html = args.template;
+			const queue_html = args.template;
 
-
-			console.log($('.inline_action_media', queue_html));
 			$('.inline_action_media', queue_html).click(function (ev) {
-				var _data = ($(this).data('action') === 'edit') ? {id: $('#announce', queue_html).val()} : {},
+				const select = ev.target.dataset.target;
+				const _data = ($(this).data('action') === 'edit') ? {id: $(`#${select}`, queue_html).val()} : {},
 					_id = _data.id;
 
 				ev.preventDefault();
@@ -869,17 +863,17 @@ define(function(require) {
 					callback: function (media) {
 						/* Create */
 						if (!_id) {
-							$('#announce', queue_html).append('<option id="' + media.id + '" value="' + media.id + '">' + media.name + '</option>');
-							$('#announce', queue_html).val(media.id);
+							$(`#${select}`, queue_html).append(`<option id="${media.id}" value="${media.id}">${media.name}</option>`);
+							$(`#${select}`, queue_html).val(media.id);
 
 							$('#edit_link_media', queue_html).show();
 						} else {
 							/* Update */
 							if (media.hasOwnProperty('id')) {
-								$('#announce #' + media.id, queue_html).text(media.name);
+								$(`#${select}` + ' #' + media.id, queue_html).text(media.name);
 								/* Delete */
 							} else {
-								$('#announce #' + _id, queue_html).remove();
+								$(`#${select}` + ' #' + _id, queue_html).remove();
 								$('#edit_link_media', queue_html).hide();
 							}
 						}
