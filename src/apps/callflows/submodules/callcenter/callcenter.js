@@ -449,6 +449,8 @@ define(function(require) {
 
 								callback(null, {});
 							});
+						} else {
+							callback(null, {});
 						}
 					});
 				}
